@@ -1,119 +1,105 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 void main() {
-  runApp(ChangeNotifierProvider(
-    create: (_) => ThemeProvider(),
-    child: const CustomDNSApp(),
-  ));
+  runApp(const CustomDNSApp());
 }
 
-class CustomDNSApp extends StatelessWidget {
-  const CustomDNSApp({super.key});
+class CustomDNSApp extends StatefulWidget {
+  const CustomDNSApp({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
-    return MaterialApp(
-      title: 'Custom DNS',
-      themeMode: themeProvider.themeMode,
-      theme: ThemeData(
-        brightness: Brightness.light,
-        primarySwatch: Colors.blue,
-        useMaterial3: true,
-      ),
-      darkTheme: ThemeData(
-        brightness: Brightness.dark,
-        primarySwatch: Colors.blue,
-        useMaterial3: true,
-      ),
-      home: const DNSHomePage(),
-      debugShowCheckedModeBanner: false,
-    );
-  }
+  State<CustomDNSApp> createState() => _CustomDNSAppState();
 }
 
-class DNSHomePage extends StatefulWidget {
-  const DNSHomePage({super.key});
-
-  @override
-  State<DNSHomePage> createState() => _DNSHomePageState();
-}
-
-class _DNSHomePageState extends State<DNSHomePage> {
-  final TextEditingController _dnsController =
-      TextEditingController(text: 'dns.adguard-dns.com');
-
-  String _status = '';
+class _CustomDNSAppState extends State<CustomDNSApp> {
+  final TextEditingController _controller = TextEditingController(text: 'dns.adguard-dns.com');
+  String? _connectedDNS;
 
   void _connect() {
     setState(() {
-      _status = 'Connected to ${_dnsController.text}';
+      _connectedDNS = _controller.text.trim();
     });
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(_status)),
+      SnackBar(content: Text('Connected to \$_connectedDNS')),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Custom DNS'),
-        actions: [
-          IconButton(
-            tooltip: 'Toggle Theme',
-            icon: Icon(themeProvider.isDarkMode
-                ? Icons.light_mode
-                : Icons.dark_mode),
-            onPressed: themeProvider.toggleTheme,
-          ),
-        ],
+    return MaterialApp(
+      title: 'Custom DNS',
+      theme: ThemeData.light().copyWith(
+        colorScheme: ColorScheme.light(primary: Colors.blueAccent),
+        inputDecorationTheme: const InputDecorationTheme(
+          border: OutlineInputBorder(),
+        ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          children: [
-            TextField(
-              controller: _dnsController,
-              decoration: const InputDecoration(
-                labelText: 'Private DNS Hostname',
-                border: OutlineInputBorder(),
-                prefixIcon: Icon(Icons.public),
+      darkTheme: ThemeData.dark().copyWith(
+        colorScheme: ColorScheme.dark(primary: Colors.blueAccent),
+        inputDecorationTheme: const InputDecorationTheme(
+          border: OutlineInputBorder(),
+        ),
+      ),
+      themeMode: ThemeMode.system,
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('Custom DNS'),
+          centerTitle: true,
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // Simple DNS shield icon with text 'DNS'
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.blueAccent.withOpacity(0.2),
+                ),
+                child: const Text(
+                  'DNS',
+                  style: TextStyle(
+                    fontSize: 48,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blueAccent,
+                    shadows: [
+                      Shadow(
+                        blurRadius: 5,
+                        color: Colors.blueAccent,
+                        offset: Offset(0, 0),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton.icon(
-              icon: const Icon(Icons.shield),
-              label: const Text('Connect'),
-              onPressed: _connect,
-              style: ElevatedButton.styleFrom(
-                minimumSize: const Size.fromHeight(50),
+              const SizedBox(height: 40),
+              TextField(
+                controller: _controller,
+                decoration: const InputDecoration(
+                  labelText: 'Custom Private DNS Hostname',
+                  hintText: 'Enter DNS hostname',
+                ),
               ),
-            ),
-            const SizedBox(height: 20),
-            Text(
-              _status,
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
-          ],
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: _connect,
+                child: const Text('Connect'),
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size.fromHeight(50),
+                ),
+              ),
+              const SizedBox(height: 20),
+              if (_connectedDNS != null)
+                Text(
+                  'Connected to \$_connectedDNS',
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                ),
+            ],
+          ),
         ),
       ),
     );
-  }
-}
-
-class ThemeProvider extends ChangeNotifier {
-  ThemeMode _themeMode = ThemeMode.system;
-
-  ThemeMode get themeMode => _themeMode;
-
-  bool get isDarkMode => _themeMode == ThemeMode.dark;
-
-  void toggleTheme() {
-    _themeMode =
-        _themeMode == ThemeMode.dark ? ThemeMode.light : ThemeMode.dark;
-    notifyListeners();
   }
 }
