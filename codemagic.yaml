@@ -1,0 +1,81 @@
+workflows:
+  build-release:
+    name: Build Signed APK
+    max_build_duration: 30
+    environment:
+      flutter: stable
+      vars:
+        PACKAGE_NAME: "com.bxitiz.custom_dns"
+      secure:
+        - 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
+BBTln8ez3xrd58VRmaw0DF3SNUhRfwICJxA=
+        - 12345678
+        - kshitish bhurtel
+        - 12345678
+
+    scripts:
+      - name: Decode Keystore
+        script: echo $CM_KEYSTORE | base64 --decode > android/custom_dns.jks
+
+      - name: Create key.properties
+        script: |
+          cat > android/key.properties <<EOF
+          storePassword=$CM_KEYSTORE_PASSWORD
+          keyPassword=$CM_KEY_PASSWORD
+          keyAlias=$CM_KEY_ALIAS
+          storeFile=android/custom_dns.jks
+          EOF
+
+      - name: Build release APK
+        script: flutter build apk --release
+
+    artifacts:
+      - build/app/outputs/flutter-apk/app-release.apk
+      
