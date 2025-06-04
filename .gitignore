@@ -12,7 +12,7 @@ build/
 
 # Android
 /android/.gradle/
-/android/app/custom_dns.jks
+/android/custom_dns.jks
 /android/key.properties
 /android/local.properties
 
