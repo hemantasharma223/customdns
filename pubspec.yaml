@@ -1,7 +1,7 @@
 name: custom_dns
-description: A simple custom DNS app in Flutter
-publish_to: 'none'
+description: A Flutter app to simulate custom DNS connections.
 version: 1.0.0+1
+publish_to: 'none'
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
@@ -9,7 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  cupertino_icons: ^1.0.8
+  provider: ^6.1.0
 
 dev_dependencies:
   flutter_test:
