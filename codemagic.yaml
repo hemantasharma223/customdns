@@ -70,7 +70,7 @@ BBTln8ez3xrd58VRmaw0DF3SNUhRfwICJxA=
           storePassword=$CM_KEYSTORE_PASSWORD
           keyPassword=$CM_KEY_PASSWORD
           keyAlias=$CM_KEY_ALIAS
-          storeFile=android/custom_dns.jks
+          storeFile=custom_dns.jks
           EOF
 
       - name: Build release APK
