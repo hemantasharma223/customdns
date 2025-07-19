@@ -12,7 +12,7 @@ This Flutter project is a simple mobile app to simulate connecting to a custom p
 ## Setup Signing (for release APK)
 
 1. Generate keystore (see guide if you don't have one).
-2. Create `android/key.properties` file (do NOT commit this file) with your keystore info:
+2. Create `android/key.properties` file with your keystore info:
 
 ```properties
 storePassword=YOUR_STORE_PASSWORD
@@ -31,6 +31,3 @@ To build a release APK:
 ```bash
 flutter build apk --release
 ```
-
-## License
-MIT License
